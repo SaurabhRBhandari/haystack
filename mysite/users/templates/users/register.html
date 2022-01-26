@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Sign Up</title>
-</head>
-<body>
+{%extends "qa/base.html"%}
+{%block content%}
     {% load crispy_forms_tags %}
     <div class "content-section">
         <form method="POST">
@@ -22,5 +18,4 @@
             </small>
         </div>
     </div>
-</body>
-</html>
+{%endblock content%}

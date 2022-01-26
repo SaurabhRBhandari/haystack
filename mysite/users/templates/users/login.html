@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Log in</title>
-</head>
-<body>
-    {% load crispy_forms_tags %}
+{%extends "qa/base.html"%}
+{%block content%}
+{% load crispy_forms_tags %}
     <div class "content-section">
         <form method="POST">
             {% csrf_token %}
@@ -22,5 +18,4 @@
             </small>
         </div>
     </div>
-</body>
-</html>
+{%endblock content%}
