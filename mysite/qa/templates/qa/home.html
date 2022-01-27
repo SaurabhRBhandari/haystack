@@ -1,4 +1,20 @@
 {%extends "qa/base.html"%}
 {%block content%}
-<h1> Hello <h1>
+    {% if  questions%}
+        {% for question in questions %}
+               <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ question.user.username }}</a>
+                  <small class="text-muted">{{ question.timestamp }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ question.question }}</a></h2>
+                <p class="article-content">{{ question.description }}</p>
+              </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <h1>No questions available at the moment</h1>
+    {% endif %}
 {%endblock content%}
+

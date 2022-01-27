@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.template import context
 from .models import *
-from django.views.generic import ListView, CreateView
-
+from django.shortcuts import render
 
 def home(request):
-    return render(request,'qa/home.html')
+    questions=Question.objects.all()
+    context = {
+       'questions':questions 
+    }
+    return render(request,'qa/home.html',context)
