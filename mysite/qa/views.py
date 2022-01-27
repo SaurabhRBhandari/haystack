@@ -23,7 +23,7 @@ class QuestionListView(ListView):
 
 class UserQuestionListView(ListView):
     model = Question
-    template_name = 'qa/user_post.html'
+    template_name = 'qa/user_question.html'
     context_object_name = 'questions'
     paginate_by = 5
 
@@ -34,6 +34,12 @@ class UserQuestionListView(ListView):
 
 class QuestionDetailView(DetailView):
     model = Question
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        q = get_object_or_404(Question, pk=self.kwargs.get('pk'))
+        context['answers'] = Answer.objects.filter(question=q).order_by('-timestamp')
+        return context
 
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
@@ -69,3 +75,15 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == question.user:
             return True
         return False
+
+
+class AnswerCreateView(LoginRequiredMixin, CreateView):
+    model = Answer
+    fields = ['answer']
+    template_name = 'qa/answer_question.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.question = get_object_or_404(
+            Question, pk=self.kwargs.get('pk'))
+        return super().form_valid(form)

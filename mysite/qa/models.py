@@ -30,6 +30,9 @@ class Answer(models.Model):
 
     def __str__(self):
         return f' {self.question} : {self.answer} '
+    
+    def get_absolute_url(self):
+        return reverse("qa:question-detail", kwargs={"pk": self.question.pk})
 
 
 class Vote(models.Model):

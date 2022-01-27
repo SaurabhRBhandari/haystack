@@ -16,5 +16,48 @@
          <h2 class="article-title">{{ object.question }}</h2>
          <p class="article-content">{{ object.description }}</p>
         </div>
+        <div>   
+          <a class="btn btn-secondary btn-sm mt-1 mb-1"href="{% url 'qa:question-answer' object.id%}">Answer</a>
+        </div>
     </article>
+    <legend class="border-bottom-mb-4">Answers</Legend>
+        {% if  answers%}
+        {% for answer in answers %}
+            <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{answer.user.profile.image.url}}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="{% url 'qa:user-question' answer.user.username%}">{{ answer.user.username }}</a>
+                  <small class="text-muted">{{ answer.timestamp }}</small>
+                </div>
+                <p class="article-content">{{ answer.answer }}</p>
+              </div>
+            </article>
+        {% endfor %}
+
+        {% if is_paginated %}
+
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+          {% endif %}
+
+        {% endif %}
+
+        {% else %}
+            <h1>The question is not yet answered</h1>
+     {% endif %}
 {%endblock content%}

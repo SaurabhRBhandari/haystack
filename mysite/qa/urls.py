@@ -7,6 +7,7 @@ from .views import (
     QuestionUpdateView,
     QuestionDeleteView,
     UserQuestionListView,
+    AnswerCreateView
 )
 
 app_name = "qa"
@@ -19,5 +20,6 @@ urlpatterns = [
          QuestionUpdateView.as_view(), name="question-update"),
     path("question/<int:pk>/delete",
          QuestionDeleteView.as_view(), name="question-delete"),
+    path("question/<int:pk>/answer", AnswerCreateView.as_view(), name="question-answer"),
 
 ]
