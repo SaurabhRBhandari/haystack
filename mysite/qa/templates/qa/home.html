@@ -2,13 +2,14 @@
 {%block content%}
     {% if  questions%}
         {% for question in questions %}
-               <article class="media content-section">
+            <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{question.user.profile.image.url}}">
               <div class="media-body">
                 <div class="article-metadata">
                   <a class="mr-2" href="#">{{ question.user.username }}</a>
                   <small class="text-muted">{{ question.timestamp }}</small>
                 </div>
-                <h2><a class="article-title" href="#">{{ question.question }}</a></h2>
+                <h2><a class="article-title" href="{% url 'qa:question-detail' question.id%}">{{ question.question }}</a></h2>
                 <p class="article-content">{{ question.description }}</p>
               </div>
             </article>
