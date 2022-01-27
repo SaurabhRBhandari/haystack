@@ -1,5 +1,6 @@
 {%extends "qa/base.html"%}
 {%block content%}
+    <h1 class="mb-3">Questions by {{view.kwargs.username}} ({{page_obj.paginator.count}})</h1>
     {% if  questions%}
         {% for question in questions %}
             <article class="media content-section">
@@ -41,4 +42,3 @@
             <h1>No questions available at the moment</h1>
      {% endif %}
 {%endblock content%}
-
