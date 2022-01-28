@@ -19,17 +19,28 @@
     <div>
       {%if liked%}
         <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-          Unlike</a>
+           &nbsp;&nbsp; Unlike&nbsp;&nbsp; </a>
       
       {%else %}
         <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-          Like</a>
+      &nbsp;&nbsp;&nbsp; Like &nbsp;&nbsp;&nbsp;</a>
       {%endif%}
-          -{{total_likes}} Likes
+          ({{total_likes}} Likes)
+    </div>
+    <div>
+      {%if disliked%}
+        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
+          Undislike</a>
+      
+      {%else %}
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
+          &nbsp; Dislike &nbsp; </a>
+      {%endif%}
+          ({{total_dislikes}} Dislikes)
     </div>
   </div>
 
-  
+
 </article>
 <legend class="border-bottom-mb-4">Answers</Legend>
 {% if  answers%}

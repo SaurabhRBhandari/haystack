@@ -14,7 +14,8 @@ class Question(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     likes = models.ManyToManyField(
         User, related_name='likes', default=None, blank=True)
-    
+    dislikes = models.ManyToManyField(
+        User, related_name='dislikes', default=None, blank=True)
 
     def __str__(self):
         return self.question
@@ -24,6 +25,9 @@ class Question(models.Model):
 
     def total_likes(self):
         return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
 
 
 class Answer(models.Model):

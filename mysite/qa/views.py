@@ -42,13 +42,20 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = get_object_or_404(Question, pk=self.kwargs.get('pk'))
-        context['answers'] = Answer.objects.filter(question=q).order_by('-timestamp')
-        total_likes=q.total_likes()
-        liked=False
+        context['answers'] = Answer.objects.filter(
+            question=q).order_by('-timestamp')
+        total_likes = q.total_likes()
+        liked = False
         if q.likes.filter(id=self.request.user.id).exists():
-            liked=True
-        context['total_likes']=total_likes
-        context['liked']=liked
+            liked = True
+        context['total_likes'] = total_likes
+        context['liked'] = liked
+        total_dislikes = q.total_dislikes()
+        disliked = False
+        if q.dislikes.filter(id=self.request.user.id).exists():
+            disliked = True
+        context['total_dislikes'] = total_dislikes
+        context['disliked'] = disliked
         return context
 
 
@@ -98,14 +105,28 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
             Question, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
 
+
 @login_required
-def LikeView(request,pk):
+def LikeView(request, pk):
     q = get_object_or_404(Question, pk=pk)
-    liked=False
+    liked = False
     if q.likes.filter(id=request.user.id).exists():
         q.likes.remove(request.user)
-        liked=False
+        liked = False
     else:
         q.likes.add(request.user)
-        liked=True
-    return redirect(reverse('qa:question-detail',kwargs={'pk':pk}))
+        liked = True
+    return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
+
+
+@login_required
+def DislikeView(request, pk):
+    q = get_object_or_404(Question, pk=pk)
+    disliked = False
+    if q.dislikes.filter(id=request.user.id).exists():
+        q.dislikes.remove(request.user)
+        disliked = False
+    else:
+        q.dislikes.add(request.user)
+        disliked = True
+    return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
