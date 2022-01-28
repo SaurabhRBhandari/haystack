@@ -44,7 +44,11 @@ class QuestionDetailView(DetailView):
         q = get_object_or_404(Question, pk=self.kwargs.get('pk'))
         context['answers'] = Answer.objects.filter(question=q).order_by('-timestamp')
         total_likes=q.total_likes()
+        liked=False
+        if q.likes.filter(id=self.request.user.id).exists():
+            liked=True
         context['total_likes']=total_likes
+        context['liked']=liked
         return context
 
 
@@ -97,5 +101,11 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
 @login_required
 def LikeView(request,pk):
     q = get_object_or_404(Question, pk=pk)
-    q.likes.add(request.user)
+    liked=False
+    if q.likes.filter(id=request.user.id).exists():
+        q.likes.remove(request.user)
+        liked=False
+    else:
+        q.likes.add(request.user)
+        liked=True
     return redirect(reverse('qa:question-detail',kwargs={'pk':pk}))

@@ -15,13 +15,21 @@
     </div>
     <h2 class="article-title">{{ object.question }}</h2>
     <p class="article-content">{{ object.description }}</p>
+    <a class="btn btn-secondary " href="{% url 'qa:question-answer' object.id%}">Answer</a>
     <div>
-      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-        Like</a>-{{total_likes}} Likes
+      {%if liked%}
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
+          Unlike</a>
+      
+      {%else %}
+        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
+          Like</a>
+      {%endif%}
+          -{{total_likes}} Likes
     </div>
   </div>
-  <a class="btn btn-primary btn-sm" href="{% url 'qa:question-answer' object.id%}">Answer</a>
 
+  
 </article>
 <legend class="border-bottom-mb-4">Answers</Legend>
 {% if  answers%}
