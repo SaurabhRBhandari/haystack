@@ -12,12 +12,17 @@ class Question(models.Model):
     answers = models.IntegerField(default=0)
     answered = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    likes = models.ManyToManyField(
+        User, related_name='likes', default=None, blank=True)
 
     def __str__(self):
         return self.question
 
     def get_absolute_url(self):
         return reverse("qa:question-detail", kwargs={"pk": self.pk})
+
+    def total_likes(self):
+        return self.likes.count()
 
 
 class Answer(models.Model):
@@ -30,16 +35,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return f' {self.question} : {self.answer} '
-    
+
     def get_absolute_url(self):
         return reverse("qa:question-detail", kwargs={"pk": self.question.pk})
-
-
-class Vote(models.Model):
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    vote = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f' {self.answer}-{self.vote} votes '

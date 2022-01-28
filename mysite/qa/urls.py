@@ -7,7 +7,8 @@ from .views import (
     QuestionUpdateView,
     QuestionDeleteView,
     UserQuestionListView,
-    AnswerCreateView
+    AnswerCreateView,
+    LikeView
 )
 
 app_name = "qa"
@@ -21,5 +22,5 @@ urlpatterns = [
     path("question/<int:pk>/delete",
          QuestionDeleteView.as_view(), name="question-delete"),
     path("question/<int:pk>/answer", AnswerCreateView.as_view(), name="question-answer"),
-
+    path('like/<int:pk>/', LikeView, name='like-question')
 ]

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.template import context
 from .models import *
@@ -11,6 +12,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 class QuestionListView(ListView):
@@ -39,6 +43,8 @@ class QuestionDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         q = get_object_or_404(Question, pk=self.kwargs.get('pk'))
         context['answers'] = Answer.objects.filter(question=q).order_by('-timestamp')
+        total_likes=q.total_likes()
+        context['total_likes']=total_likes
         return context
 
 
@@ -87,3 +93,9 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
         form.instance.question = get_object_or_404(
             Question, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
+
+@login_required
+def LikeView(request,pk):
+    q = get_object_or_404(Question, pk=pk)
+    q.likes.add(request.user)
+    return redirect(reverse('qa:question-detail',kwargs={'pk':pk}))
