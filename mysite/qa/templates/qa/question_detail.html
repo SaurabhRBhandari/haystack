@@ -18,25 +18,24 @@
     <a class="btn btn-secondary " href="{% url 'qa:question-answer' object.id%}">Answer</a>
     <div>
       {%if liked%}
-        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-           &nbsp;&nbsp; Unlike&nbsp;&nbsp; </a>
+        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
+           &nbsp;&nbsp; Like ({{total_likes}}) &nbsp;&nbsp; </a>
       
       {%else %}
-        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-      &nbsp;&nbsp;&nbsp; Like &nbsp;&nbsp;&nbsp;</a>
+        <a class="btn btn-outline-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
+      &nbsp;&nbsp;&nbsp; Like ({{total_likes}}) &nbsp;&nbsp;&nbsp;</a>
       {%endif%}
-          ({{total_likes}} Likes)
+      &nbsp;
     </div>
     <div>
       {%if disliked%}
-        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
-          Undislike</a>
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
+          &nbsp; Dislike ({{total_dislikes}})&nbsp;</a>
       
       {%else %}
-        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
-          &nbsp; Dislike &nbsp; </a>
+        <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
+          &nbsp; Dislike ({{total_dislikes}})&nbsp; </a>
       {%endif%}
-          ({{total_dislikes}} Dislikes)
     </div>
   </div>
 

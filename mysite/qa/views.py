@@ -115,6 +115,7 @@ def LikeView(request, pk):
         liked = False
     else:
         q.likes.add(request.user)
+        q.dislikes.remove(request.user)
         liked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
 
@@ -128,5 +129,6 @@ def DislikeView(request, pk):
         disliked = False
     else:
         q.dislikes.add(request.user)
+        q.likes.remove(request.user)
         disliked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))

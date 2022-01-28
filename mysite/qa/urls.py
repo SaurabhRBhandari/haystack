@@ -22,7 +22,8 @@ urlpatterns = [
          QuestionUpdateView.as_view(), name="question-update"),
     path("question/<int:pk>/delete",
          QuestionDeleteView.as_view(), name="question-delete"),
-    path("question/<int:pk>/answer", AnswerCreateView.as_view(), name="question-answer"),
-    path('like/<int:pk>/', LikeView, name='like-question'),
-    path('dislike/<int:pk>/', DislikeView, name='dislike-question'),
+    path("question/<int:pk>/answer",
+         AnswerCreateView.as_view(), name="question-answer"),
+    path('question/<int:pk>/like/', LikeView, name='like-question'),
+    path('question/<int:pk>/dislike/', DislikeView, name='dislike-question'),
 ]
