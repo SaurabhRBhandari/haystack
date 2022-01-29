@@ -19,22 +19,25 @@
     <div>
       {%if liked%}
         <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-           &nbsp;&nbsp; Like ({{total_likes}}) &nbsp;&nbsp; </a>
-      
+           <img src="/media/upvote.jpg"> ({{total_likes}})
+        </a>
+
+
       {%else %}
         <a class="btn btn-outline-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-question' object.id%}">
-      &nbsp;&nbsp;&nbsp; Like ({{total_likes}}) &nbsp;&nbsp;&nbsp;</a>
+          <img src="/media/upvote.jpg"> ({{total_likes}})
+        </a>
       {%endif%}
       &nbsp;
-    </div>
-    <div>
+ 
       {%if disliked%}
         <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
-          &nbsp; Dislike ({{total_dislikes}})&nbsp;</a>
+          <img src="/media/downvote.jpg"> ({{total_dislikes}})
+        </a>
       
       {%else %}
         <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-question' object.id%}">
-          &nbsp; Dislike ({{total_dislikes}})&nbsp; </a>
+          <img src="/media/downvote.jpg"> ({{total_dislikes}})</a>
       {%endif%}
     </div>
   </div>

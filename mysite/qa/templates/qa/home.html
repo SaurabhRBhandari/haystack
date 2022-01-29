@@ -1,6 +1,7 @@
 {%extends "qa/base.html"%}
 {%block content%}
     {% if  questions%}
+    <img src="media/downvote.png">
         {% for question in questions %}
             <article class="media content-section">
               <img class="rounded-circle article-img" src="{{question.user.profile.image.url}}">
