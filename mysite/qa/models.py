@@ -40,9 +40,18 @@ class Answer(models.Model):
     votes = models.IntegerField(default=0)
     accepted = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-
+    answer_likes = models.ManyToManyField(
+        User, related_name='answer_likes', default=None, blank=True)
+    answer_dislikes = models.ManyToManyField(
+        User, related_name='answer_dislikes', default=None, blank=True)
     def __str__(self):
         return f' {self.question} : {self.answer} '
 
     def get_absolute_url(self):
         return reverse("qa:question-detail", kwargs={"pk": self.question.pk})
+    
+    def total_likes(self):
+            return self.answer_likes.count()
+
+    def total_dislikes(self):
+        return self.answer_dislikes.count()

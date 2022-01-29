@@ -60,6 +60,30 @@
       <small class="text-muted">{{ answer.timestamp }}</small>
     </div>
     <p class="article-content">{{ answer.answer }}</p>
+    <div>
+      {%if answer in liked_answers%}
+        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-answer' object.id answer.id%}">
+           <img src="/media/upvote.jpg"> ({{answer.total_likes}})
+        </a>
+
+
+      {%else %}
+        <a class="btn btn-outline-primary btn-sm mt-1 mb-1" href="{% url 'qa:like-answer' object.id answer.id%}">
+          <img src="/media/upvote.jpg"> ({{answer.total_likes}})
+        </a>
+      {%endif%}
+      &nbsp;
+ 
+      {%if answer in disliked_answers%}
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-answer' object.id answer.id%}">
+          <img src="/media/downvote.jpg"> ({{answer.total_dislikes}})
+        </a>
+      
+      {%else %}
+        <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'qa:dislike-answer' object.id answer.id%}">
+          <img src="/media/downvote.jpg"> ({{answer.total_dislikes}})</a>
+      {%endif%}
+    </div>
   </div>
 </article>
 {% endfor %}

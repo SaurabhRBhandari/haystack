@@ -8,8 +8,10 @@ from .views import (
     QuestionDeleteView,
     UserQuestionListView,
     AnswerCreateView,
-    LikeView,
-    DislikeView,
+    LikeQuestionView,
+    DislikeQuestionView,
+    LikeAnswerView,
+    DislikeAnswerView
 )
 
 app_name = "qa"
@@ -24,6 +26,8 @@ urlpatterns = [
          QuestionDeleteView.as_view(), name="question-delete"),
     path("question/<int:pk>/answer",
          AnswerCreateView.as_view(), name="question-answer"),
-    path('question/<int:pk>/like/', LikeView, name='like-question'),
-    path('question/<int:pk>/dislike/', DislikeView, name='dislike-question'),
+    path('question/<int:pk>/like/', LikeQuestionView, name='like-question'),
+    path('question/<int:pk>/dislike/', DislikeQuestionView, name='dislike-question'),
+    path('question/<int:pk>/answer/<int:a_pk>/like/', LikeAnswerView, name='like-answer'),
+    path('question/<int:pk>/answer/<int:a_pk>/dislike/', DislikeAnswerView, name='dislike-answer'),
 ]
