@@ -61,7 +61,7 @@ class QuestionDetailView(DetailView):
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
-    fields = ['question', 'description']
+    fields = ['question', 'description' ,'question_image']
 
     def form_valid(self, form):
         form.instance.user = self.request.user

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def register(request):
+    '''View to register a new user'''
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -20,6 +21,7 @@ def register(request):
 
 @login_required
 def profile(request):
+    '''View to dispay/edit profile of an existing user'''
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,

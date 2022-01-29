@@ -15,6 +15,11 @@
     </div>
     <h2 class="article-title">{{ object.question }}</h2>
     <p class="article-content">{{ object.description }}</p>
+    {% if object.question_image %}
+    <p> 
+      <img class="img-fluid" src={{object.question_image.url}} >
+    </p>
+    {%endif%}
     <a class="btn btn-secondary " href="{% url 'qa:question-answer' object.id%}">Answer</a>
     <div>
       {%if liked%}

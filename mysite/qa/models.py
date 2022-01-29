@@ -17,6 +17,8 @@ class Question(models.Model):
         User, related_name='likes', default=None, blank=True)
     dislikes = models.ManyToManyField(
         User, related_name='dislikes', default=None, blank=True)
+    question_image = models.ImageField(
+        null=True, blank=True, upload_to='question_pics')
 
     def __str__(self):
         return self.question
