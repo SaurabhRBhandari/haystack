@@ -1,18 +1,5 @@
 from django.urls import path
-from . import views
-from .views import (
-    QuestionListView,
-    QuestionDetailView,
-    QuestionCreateView,
-    QuestionUpdateView,
-    QuestionDeleteView,
-    UserQuestionListView,
-    AnswerCreateView,
-    LikeQuestionView,
-    DislikeQuestionView,
-    LikeAnswerView,
-    DislikeAnswerView
-)
+from .views import *
 
 app_name = "qa"
 urlpatterns = [
@@ -26,8 +13,12 @@ urlpatterns = [
          QuestionDeleteView.as_view(), name="question-delete"),
     path("question/<int:pk>/answer",
          AnswerCreateView.as_view(), name="question-answer"),
-    path('question/<int:pk>/like/', LikeQuestionView, name='like-question'),
-    path('question/<int:pk>/dislike/', DislikeQuestionView, name='dislike-question'),
-    path('question/<int:pk>/answer/<int:a_pk>/like/', LikeAnswerView, name='like-answer'),
-    path('question/<int:pk>/answer/<int:a_pk>/dislike/', DislikeAnswerView, name='dislike-answer'),
+    path('question/<int:pk>/like/',
+         LikeQuestionView, name='like-question'),
+    path('question/<int:pk>/dislike/',
+         DislikeQuestionView, name='dislike-question'),
+    path('question/<int:pk>/answer/<int:a_pk>/like/',
+         LikeAnswerView, name='like-answer'),
+    path('question/<int:pk>/answer/<int:a_pk>/dislike/',
+         DislikeAnswerView, name='dislike-answer'),
 ]

@@ -1,18 +1,8 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.template import context
 from .models import *
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
-from django.http import HttpResponseRedirect
+from django.views.generic import *
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -58,17 +48,18 @@ class QuestionDetailView(DetailView):
             disliked = True
         context['total_dislikes'] = total_dislikes
         context['disliked'] = disliked
-        
+
         liked_answers = []
         for answer in answers:
             if answer.answer_likes.filter(id=self.request.user.id).exists():
                 liked_answers.append(answer)
-        context['liked_answers']=liked_answers
+        context['liked_answers'] = liked_answers
+
         disliked_answers = []
         for answer in answers:
             if answer.answer_dislikes.filter(id=self.request.user.id).exists():
                 disliked_answers.append(answer)
-        context['disliked_answers']=disliked_answers
+        context['disliked_answers'] = disliked_answers
         return context
 
 
@@ -122,54 +113,42 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
 @login_required
 def LikeQuestionView(request, pk):
     q = get_object_or_404(Question, pk=pk)
-    liked = False
     if q.likes.filter(id=request.user.id).exists():
         q.likes.remove(request.user)
-        liked = False
     else:
         q.likes.add(request.user)
         q.dislikes.remove(request.user)
-        liked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
 
 
 @login_required
 def DislikeQuestionView(request, pk):
     q = get_object_or_404(Question, pk=pk)
-    disliked = False
     if q.dislikes.filter(id=request.user.id).exists():
         q.dislikes.remove(request.user)
-        disliked = False
     else:
         q.dislikes.add(request.user)
         q.likes.remove(request.user)
-        disliked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
 
 
 @login_required
-def LikeAnswerView(request, pk,a_pk):
+def LikeAnswerView(request, pk, a_pk):
     a = get_object_or_404(Answer, pk=a_pk)
-    liked = False
     if a.answer_likes.filter(id=request.user.id).exists():
         a.answer_likes.remove(request.user)
-        liked = False
     else:
         a.answer_likes.add(request.user)
         a.answer_dislikes.remove(request.user)
-        liked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))
 
 
 @login_required
-def DislikeAnswerView(request, pk,a_pk):
+def DislikeAnswerView(request, pk, a_pk):
     a = get_object_or_404(Answer, pk=a_pk)
-    disliked = False
     if a.answer_dislikes.filter(id=request.user.id).exists():
         a.answer_dislikes.remove(request.user)
-        disliked = False
     else:
         a.answer_dislikes.add(request.user)
         a.answer_likes.remove(request.user)
-        disliked = True
     return redirect(reverse('qa:question-detail', kwargs={'pk': pk}))

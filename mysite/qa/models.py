@@ -1,17 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.urls import reverse
-from PIL import Image
 
 
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.TextField()
     description = models.TextField(null=True, blank=True)
-    views = models.IntegerField(default=0)
-    answers = models.IntegerField(default=0)
-    answered = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     likes = models.ManyToManyField(
         User, related_name='likes', default=None, blank=True)
@@ -37,8 +32,6 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     answer = models.TextField()
-    votes = models.IntegerField(default=0)
-    accepted = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     answer_likes = models.ManyToManyField(
         User, related_name='answer_likes', default=None, blank=True)
